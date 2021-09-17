@@ -3,14 +3,15 @@ import firebase , { auth } from "../config/firebase"
 
 class Auth{
     constructor(){
-        this.authenticated = false
+        this.authenticated = JSON.parse(localStorage.getItem("isAuthenticated")) || false
     }
 
-    login(email, pass){
+    login(email, pass, cb){
         auth.signInWithEmailAndPassword(email, pass)
         .then((user) => {
             console.log(user)
             this.authenticated = true
+            cb()
         })
         .catch(e => console.log('login error: ',e))
     }
@@ -33,49 +34,18 @@ class Auth{
 
     isAuthenticated(){
 
-        // let user = firebase.auth().currentUser;
+        firebase.auth().onAuthStateChanged((user) => {
+            if(user){
+                const uid = user.uid
 
-        // console.log(user)
+                localStorage.setItem("isAuthenticated" , true)
 
-        // return (user !== null) ? this.authenticated = true : this.authenticated = false ; 
-
-        const authPromise = new Promise((resolve, reject) => {
-             auth.onAuthStateChanged((user) => {
-
-                if (user) {
-                
-                  var uid = user.uid;
-                
-                  resolve(user)
-                    
-                } else {
-                
-                  reject()
-                
-                }
-                
-            })
-            
+            }else{
+                localStorage.setItem("isAuthenticated" , false)
+            }
         })
         
-        // console.log(auth.currentUser)
-        
-        return authPromise.then((user) => {
-            // if(this._saveUserDataToLocalStorage(user) === 'success')
-            console.log(user)
-
-            this.authenticated = true
-            
-            
-        }).catch((res) => {
-            this.authenticated = false
-            
-            // console.log("some errror", e)
-        });
-        
         return this.authenticated
-
-
 
     }
 

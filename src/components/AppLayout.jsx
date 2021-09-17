@@ -12,7 +12,7 @@ export default function AppLayout(props) {
     return (
         <div>
             <h1>Secret!!! Shuuu!</h1>
-            <button onClick={() => getOut()}>Logout</button>
+            <button onClick={getOut}>Logout</button>
         </div>
     )
 }

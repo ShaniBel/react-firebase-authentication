@@ -31,9 +31,9 @@ export default class Login extends Component {
     if(this.validateData()){
       // console.log(email)
       // console.log(password)
-      auth.login(email, password)
-      this.props.history.push('/app')
-      // console.log(auth.isAuthenticated())
+      auth.login(email, password, () => {      
+        this.props.history.push('/app')
+      })
     }
 
 
