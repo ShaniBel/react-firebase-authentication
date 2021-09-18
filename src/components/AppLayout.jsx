@@ -1,18 +1,29 @@
-import React from 'react'
-import auth from '../lib/auth'
+import React from "react";
+import { connect } from "react-redux";
+import { logout } from "../actions/authActions";
 
-export default function AppLayout(props) {  
-    
-    const getOut  = (e) =>{
-        auth.logout(()=>{
-            props.history.push('/')
-        })
-    }
-    
-    return (
-        <div>
-            <h1>Secret!!! Shuuu!</h1>
-            <button onClick={() => getOut()}>Logout</button>
-        </div>
+function AppLayout(props) {
+  const { loggedIn, currentUser } = props.auth;
+
+  const getOut = (e) => {
+    logout();
+  };
+
+  return (
+    loggedIn && (
+      <div>
+        <h1>Secret!!! Shuuu!</h1>
+        Wellcome {currentUser.email}
+        <button onClick={getOut}>Logout</button>
+      </div>
     )
+  );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { logout })(AppLayout);

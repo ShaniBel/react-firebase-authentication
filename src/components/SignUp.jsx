@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import auth from "../lib/auth";
 
 export default class SignUp extends Component {
 
@@ -24,7 +23,7 @@ export default class SignUp extends Component {
 	const password = this.passRef.current.value
 
 	if(this.validateData()){	
-		auth.signup(email, password)
+		// auth.signup(email, password)
 		this.props.history.push('/login')
 		// console.log(auth.isAuthenticated())
 	  }

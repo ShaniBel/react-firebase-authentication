@@ -1,45 +1,38 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { login } from '../actions/authActions'
 import { Link } from "react-router-dom";
-import auth from "../lib/auth";
+import { withRouter } from "react-router-dom";
 
-export default class Login extends Component {
 
-  constructor(){
-	  // this.state = {
-		//   email: '',
-		//   pass: ''
-	  // }
+class Login extends Component {
+  constructor(props) {
+    // this.state = {
+    //   email: '',
+    //   pass: ''
+    // }
 
-    super()
-	  this.EmailRef = React.createRef(null)
-	  this.PasswordRef = React.createRef(null)
-	  
-	  
-  }
-  
-  validateData(){
-    return true
+    super(props);
+    this.EmailRef = React.createRef(null);
+    this.PasswordRef = React.createRef(null);
   }
 
+  validateData() {
+    return true;
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const email = this.EmailRef.current.value
-    const password = this.PasswordRef.current.value
+    const email = this.EmailRef.current.value;
+    const password = this.PasswordRef.current.value;
 
-    if(this.validateData()){
+    if (this.validateData()) {
       // console.log(email)
       // console.log(password)
-      auth.login(email, password)
-      this.props.history.push('/app')
-      // console.log(auth.isAuthenticated())
+      this.props.login(email, password, "/app")
     }
-
-
-
   };
-
 
   render() {
     return (
@@ -74,7 +67,6 @@ export default class Login extends Component {
                         type="email"
                         className="form-control"
                         name="email"
-                        
                         required
                         autoFocus
                       />
@@ -98,7 +90,9 @@ export default class Login extends Component {
                         name="password"
                         required
                       />
-                      <div className="invalid-feedback">Password is required</div>
+                      <div className="invalid-feedback">
+                        Password is required
+                      </div>
                     </div>
 
                     <div className="d-flex align-items-center">
@@ -122,8 +116,8 @@ export default class Login extends Component {
                 <div className="card-footer py-3 border-0">
                   <div className="text-center">
                     Don't have an account?{" "}
-                    <Link to={'/signup'} className="text-dark">
-                    Create One
+                    <Link to={"/signup"} className="text-dark">
+                      Create One
                     </Link>
                   </div>
                 </div>
@@ -138,3 +132,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default withRouter(connect(null, {login})(Login));

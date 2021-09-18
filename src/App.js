@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 import AppLayout from './components/AppLayout';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
