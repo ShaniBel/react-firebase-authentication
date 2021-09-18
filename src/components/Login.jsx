@@ -1,45 +1,47 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import auth from "../lib/auth";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default class Login extends Component {
+  static contextType = AuthContext;
 
-  constructor(){
-	  // this.state = {
-		//   email: '',
-		//   pass: ''
-	  // }
+  constructor() {
+    // this.state = {
+    //   email: '',
+    //   pass: ''
+    // }
 
-    super()
-	  this.EmailRef = React.createRef(null)
-	  this.PasswordRef = React.createRef(null)
-	  
-	  
-  }
-  
-  validateData(){
-    return true
+    super();
+    this.EmailRef = React.createRef(null);
+    this.PasswordRef = React.createRef(null);
+    this.state = {
+      error: "",
+    };
   }
 
+  validateData() {
+    return true;
+  }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
-    const email = this.EmailRef.current.value
-    const password = this.PasswordRef.current.value
+    const email = this.EmailRef.current.value;
+    const password = this.PasswordRef.current.value;
 
-    if(this.validateData()){
+    if (this.validateData()) {
       // console.log(email)
       // console.log(password)
-      auth.login(email, password)
-      this.props.history.push('/app')
+      try {
+          await this.context.login(email, password);
+          this.props.history.push('/app')
+      } catch (error) {
+
+        this.setState({ error: "something is wrong with email or password " });
+      }
       // console.log(auth.isAuthenticated())
     }
-
-
-
   };
-
 
   render() {
     return (
@@ -57,6 +59,20 @@ export default class Login extends Component {
               <div className="card shadow-lg">
                 <div className="card-body p-5">
                   <h1 className="fs-4 card-title fw-bold mb-4">Login</h1>
+                  {this.state.error && (
+                    <div
+                      className="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                    >
+                      {this.state.error}
+                      <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                  )}
                   <form
                     onSubmit={this.handleSubmit}
                     method="POST"
@@ -74,8 +90,6 @@ export default class Login extends Component {
                         type="email"
                         className="form-control"
                         name="email"
-                        
-                        required
                         autoFocus
                       />
                       <div className="invalid-feedback">Email is invalid</div>
@@ -96,9 +110,10 @@ export default class Login extends Component {
                         type="password"
                         className="form-control"
                         name="password"
-                        required
                       />
-                      <div className="invalid-feedback">Password is required</div>
+                      <div className="invalid-feedback">
+                        Password is required
+                      </div>
                     </div>
 
                     <div className="d-flex align-items-center">
@@ -122,8 +137,8 @@ export default class Login extends Component {
                 <div className="card-footer py-3 border-0">
                   <div className="text-center">
                     Don't have an account?{" "}
-                    <Link to={'/signup'} className="text-dark">
-                    Create One
+                    <Link to={"/signup"} className="text-dark">
+                      Create One
                     </Link>
                   </div>
                 </div>

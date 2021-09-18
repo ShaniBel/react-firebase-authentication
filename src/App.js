@@ -6,15 +6,18 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import AppLayout from './components/AppLayout';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
     <div className="App">
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/signUp" component={SignUp} />
-      <ProtectedRoute exact path="/app" component={AppLayout}/>
+      <AuthProvider>
+        <Route path="/login" component={Login} />
+        <Route path="/signUp" component={SignUp} />
+        <ProtectedRoute exact path="/app" component={AppLayout}/>
+      </AuthProvider>
       <Route path="*" component={() => "404 page not found"} />
     </Switch>
     </div>

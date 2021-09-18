@@ -1,4 +1,4 @@
-import firebase , { auth } from "../config/firebase"
+import { auth } from "../config/firebase"
 
 
 class Auth{
@@ -29,7 +29,7 @@ class Auth{
 
     isAuthenticated(){
 
-        return this.authenticated
+        return (auth.currentUser !== null) ? true : false
 
     }
 
