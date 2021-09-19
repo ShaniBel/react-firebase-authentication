@@ -8,23 +8,29 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 
 import App from './App';
 
-import { Router } from 'react-router-dom'
+import { BrowserRouter as Router} from 'react-router-dom'
 
 import { Provider } from 'react-redux';
 
 import store from './store';
 
-import history from './history'
+import { auth } from './config/firebase';
+import { isLoggedIn } from './actions/authActions';
 
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Router history={history}>
-        <App />
-      </Router>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+auth.onAuthStateChanged((user) => {
+  store.dispatch(isLoggedIn())
+  
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+
+})
 

@@ -6,17 +6,15 @@ function AppLayout(props) {
   const { loggedIn, currentUser } = props.auth;
 
   const getOut = (e) => {
-    logout();
+    props.logout('/');
   };
 
   return (
-    loggedIn && (
       <div>
         <h1>Secret!!! Shuuu!</h1>
         Wellcome {currentUser.email}
         <button onClick={getOut}>Logout</button>
       </div>
-    )
   );
 }
 

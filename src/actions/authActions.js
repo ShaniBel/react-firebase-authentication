@@ -33,23 +33,24 @@ export const login = (email, pass , redirectUrl) => (dispatch) => {
     });
 };
 
-// export const isLoggedIn = () => (dispatch) =>{
-//     auth.onAuthStateChanged((user) => {
-//         if(user){
-//             dispatch({
-//                 type: IS_LOGGED_IN,
-//                 payload: user
-//             })
-//         }else{
-//             dispatch({
-//                 type: IS_LOGGED_IN,
-//                 payload: user
-//             })
-//         }   
-//     })
-// }
+export const isLoggedIn = () => (dispatch) =>{
+    auth.onAuthStateChanged((user) => {
+        if(user){
+            dispatch({
+                type: IS_LOGGED_IN,
+                payload: user
+            })
+        }else{
+            dispatch({
+                type: IS_LOGGED_IN,
+                payload: user
+            })
+        }   
+    })
+}
 
-export const logout = () => (dispatch) => {
+export const logout = (redirectUrl) => (dispatch) => {
+    history.push(redirectUrl)
     auth.signOut().then(() => {
         dispatch({
             type: LOGOUT
