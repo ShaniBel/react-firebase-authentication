@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login } from '../actions/authActions'
+import { login } from "../actions/authActions";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-
 
 class Login extends Component {
   constructor(props) {
@@ -30,7 +29,7 @@ class Login extends Component {
     if (this.validateData()) {
       // console.log(email)
       // console.log(password)
-      this.props.login(email, password, "/app")
+      this.props.login(email, password, "/app");
     }
   };
 
@@ -50,6 +49,18 @@ class Login extends Component {
               <div className="card shadow-lg">
                 <div className="card-body p-5">
                   <h1 className="fs-4 card-title fw-bold mb-4">Login</h1>
+                  {this.props.auth.error && <div
+                    className="alert alert-danger alert-dismissible fade show"
+                    role="alert"
+                  > 
+                    {this.props.auth.error}
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="alert"
+                      aria-label="Close"
+                    ></button>
+                  </div>}
                   <form
                     onSubmit={this.handleSubmit}
                     method="POST"
@@ -133,4 +144,10 @@ class Login extends Component {
   }
 }
 
-export default withRouter(connect(null, {login})(Login));
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default withRouter(connect(mapStateToProps, { login })(Login));

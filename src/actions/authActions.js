@@ -28,7 +28,7 @@ export const login = (email, pass , redirectUrl) => (dispatch) => {
     .catch((e) => {
       dispatch({
         type: LOGIN_FAILED,
-        payload: e.message.split("Firebase:")[1],
+        payload: "something is wrong with your email or password",
       });
     });
 };
