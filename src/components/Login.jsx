@@ -4,13 +4,13 @@ import auth from "../lib/auth";
 
 export default class Login extends Component {
 
-  constructor(){
+  constructor(props){
 	  // this.state = {
 		//   email: '',
 		//   pass: ''
 	  // }
 
-    super()
+    super(props)
 	  this.EmailRef = React.createRef(null)
 	  this.PasswordRef = React.createRef(null)
 	  
@@ -32,6 +32,7 @@ export default class Login extends Component {
       // console.log(email)
       // console.log(password)
       auth.login(email, password)
+      console.log(this.props)
       this.props.history.push('/app')
       // console.log(auth.isAuthenticated())
     }
